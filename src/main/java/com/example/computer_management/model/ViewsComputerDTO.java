@@ -5,5 +5,4 @@ public interface ViewsComputerDTO {
     String getName();
     Integer getCount();
 
-
 }

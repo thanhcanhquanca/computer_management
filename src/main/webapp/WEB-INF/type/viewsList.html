@@ -1,24 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Thống Kê Máy Tính Theo Loại</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f4f7fa;
+      padding: 40px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  </style>
 </head>
 <body>
-<h1>ViewsComputer</h1>
-<table border="1px">
+<div class="container">
+  <h1>Thống Kê Máy Tính Theo Loại</h1>
+  <table class="table table-bordered table-striped">
+    <thead class="table-primary text-center">
     <tr>
-      <td>id</td>
-      <td>name</td>
-      <td>count</td>
+      <th>ID</th>
+      <th>Tên loại</th>
+      <th>Số lượng máy tính</th>
+      <th>Xoa</th>
     </tr>
-  <th:block th:each="p: ${viewsList}" >
-    <tr>
-      <td th:text="${p.getId}"></td>
-      <td th:text="${p.getName}"></td>
-      <td th:text="${p.getCount}"></td>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${viewsList}">
+      <td th:text="${p.getId()}"></td>
+      <td th:text="${p.getName()}"></td>
+      <td th:text="${p.getCount()}"></td>
+      <td>
+        <button >
+          <a th:href="@{/type/viewsDelete/{id}(id=${p.getId()})}">Xoa</a>
+        </button>
+      </td>
     </tr>
-  </th:block>
-</table>
+    <tr th:if="${#lists.isEmpty(viewsList)}">
+      <td colspan="3" class="text-center">Không có dữ liệu</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 </body>
 </html>

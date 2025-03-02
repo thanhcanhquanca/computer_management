@@ -6,10 +6,9 @@ import com.example.computer_management.services.ITypeServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @Controller
@@ -42,6 +41,17 @@ public class TypeController {
         Iterable<ViewsComputerDTO> optional = iTypeServices.getAllViewsComputers();
         model.addAttribute("viewsList", optional);
         return "type/viewsList";
+    }
+
+
+    @GetMapping("/viewsDelete/{id}")
+    public String deleteProvince(@PathVariable("id") Long id) {
+        Optional<Type> province = iTypeServices.findById(id);
+        if (province.isPresent()) {
+            iTypeServices.deleteAllViewsComputers(id);
+            return "redirect:/type/list";
+        }
+        return "redirect:/type/error_404";
     }
 
 
