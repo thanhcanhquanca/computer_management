@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh Sửa Máy Tính</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f7fa;
+            padding: 40px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dcdcdc;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+        button[type="submit"] {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            width: 100%;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+        .error {
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: block;
+        }
+        select {
+            appearance: none;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6"><path fill="#34495e" d="M0 0h12l-6 6z"/></svg>') no-repeat right 10px center;
+            background-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Chỉnh Sửa Máy Tính</h1>
+    <form th:action="@{/computers/updater}" th:method="post" th:object="${computer}" novalidate="novalidate">
+        <input type="hidden" th:field="*{id}">
+        <div class="form-group">
+            <label for="name">Tên máy tính</label>
+            <input id="name" type="text" th:field="*{name}" placeholder="Nhập tên máy tính" required>
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="code">Mã máy tính</label>
+            <input id="code" type="text" th:field="*{code}" placeholder="Nhập mã máy tính" required>
+            <span th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="producer">Nhà sản xuất</label>
+            <input id="producer" type="text" th:field="*{producer}" placeholder="Nhập nhà sản xuất" required>
+            <span th:if="${#fields.hasErrors('producer')}" th:errors="*{producer}" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="type_id">Loại máy tính</label>
+            <select id="type_id" th:field="*{type_id}">
+                <!-- Hiển thị tùy chọn mặc định nếu type_id là null -->
+                <option th:if="${computer.type_id == null}" value="">-- Chọn loại máy tính --</option>
+                <!-- Lặp qua danh sách types -->
+                <option th:each="type : ${types}"
+                        th:value="${type.id}"
+                        th:text="${type.name}"
+                        th:selected="${type.id == computer.type_id?.id}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Hình ảnh</label>
+            <input id="image" type="text" th:field="*{img}" placeholder="Nhập URL ảnh">
+        </div>
+        <div class="form-group">
+            <button type="submit">Cập nhật</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

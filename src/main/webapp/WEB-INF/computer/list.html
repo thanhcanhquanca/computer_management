@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="vi">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Máy Tính</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container mt-4">
+    <h1 class="text-center text-primary">Danh Sách Máy Tính</h1>
+
+    <div class="d-flex justify-content-between mb-3">
+        <!-- Search Form -->
+        <form th:action="@{/computers/search}" method="get" class="d-flex">
+            <input type="text" name="search" class="form-control me-2" placeholder="Nhập tên cần tìm..." required>
+            <input type="hidden" name="size" th:value="${size ?: 5}"/>
+            <input type="hidden" name="page" th:value="0"/>
+            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        </form>
+
+        <!-- Sort Form -->
+        <form th:action="@{/computers/list}" method="get" id="sortForm" class="d-flex">
+            <label for="sort" class="me-2">Sắp xếp:</label>
+            <select name="sort" id="sort" class="form-select" onchange="this.form.submit()">
+                <option value="asc" th:selected="${sort == 'asc'}">A-Z</option>
+                <option value="desc" th:selected="${sort == 'desc'}">Z-A</option>
+                <option value="random" th:selected="${sort == 'random'}">Ngẫu nhiên</option>
+            </select>
+            <input type="hidden" name="page" value="0"/>
+            <input type="hidden" name="size" th:value="${size ?: 5}"/>
+        </form>
+    </div>
+
+    <p><strong>Tổng số máy tính:</strong> <span th:text="${totalItems}"></span></p>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-primary text-center">
+        <tr>
+            <th>Tên</th>
+            <th>Mã</th>
+            <th>Nhà sản xuất</th>
+            <th>Loại</th>
+            <th>Hình ảnh</th>
+            <th>Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="a : ${computers}">
+            <td th:text="${a.name}"></td>
+            <td th:text="${a.code}"></td>
+            <td th:text="${a.producer}"></td>
+            <td th:text="${a.type_id != null ? a.type_id.name : 'Không có loại'}"></td>
+            <td class="text-center">
+                <img th:src="${a.img}" th:if="${a.img != null}" class="img-thumbnail" style="width: 100px; height: auto;"/>
+                <span th:if="${a.img == null}">No Image</span>
+            </td>
+            <td class="text-center">
+                <a th:href="@{/computers/edit(id=${a.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                <a th:href="@{/computers/delete/{id}(id=${a.id})}" class="btn btn-danger btn-sm">Xóa</a>
+                <a th:href="@{/computers/view/{id}(id=${a.id})}" class="btn btn-info btn-sm">Xem</a>
+            </td>
+
+        </tr>
+        <tr th:if="${#lists.isEmpty(computers)}">
+            <td colspan="6" class="text-center">Không có dữ liệu</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:if="${currentPage > 0}">
+                <a class="page-link" th:href="@{/computers/list(page=${currentPage - 1}, size=${size})}">Trước</a>
+            </li>
+            <li class="page-item" th:each="pageNum : ${pageNumbers}" th:classappend="${pageNum == currentPage ? 'active' : ''}">
+                <a class="page-link" th:href="@{/computers/list(page=${pageNum}, size=${size})}" th:text="${pageNum + 1}"></a>
+            </li>
+            <li class="page-item" th:if="${currentPage < totalPages - 1}">
+                <a class="page-link" th:href="@{/computers/list(page=${currentPage + 1}, size=${size})}">Tiếp</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+</body>
+</html>

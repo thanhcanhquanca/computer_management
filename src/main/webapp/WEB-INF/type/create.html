@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Create Type</h1>
+<form th:action="@{/type/save}" th:method="post" novalidate="novalidate" th:object="${type}">
+    <input th:field="*{name}" placeholder="nhap loai" >
+  <button type="submit" >Save</button>
+</form>
+</body>
+</html>
