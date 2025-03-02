@@ -54,5 +54,11 @@ public class TypeController {
         return "redirect:/type/error_404";
     }
 
+    @GetMapping("/edit")
+    public String showEdit(Model model) {
+        model.addAttribute("type", new Type());
+        return "type/edit";
+    }
+
 
 }
