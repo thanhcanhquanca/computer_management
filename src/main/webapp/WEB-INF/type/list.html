@@ -89,7 +89,7 @@
     </td>
     <td>
       <button class="btn-delete">
-        <a href="#" th:href="@{'/delete/' + ${a.id}}">Xóa</a>
+        <a th:href="@{/type/viewsDelete/{id}(id=${a.id})}" > Xoa</a>
       </button>
     </td>
     <td>

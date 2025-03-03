@@ -86,18 +86,32 @@
             <span th:if="${#fields.hasErrors('producer')}" th:errors="*{producer}" class="error"></span>
         </div>
 
+<!--        <div class="form-group">-->
+<!--            <label for="type_id">Loại máy tính</label>-->
+<!--&lt;!&ndash;            <input type="text" id="type_id" th:field="*{type_id.name}" class="form-control" readonly />&ndash;&gt;-->
+<!--            <select id="type_id" th:field="*{type_id.name}">-->
+<!--                &lt;!&ndash; Hiển thị tùy chọn mặc định nếu type_id là null &ndash;&gt;-->
+<!--                <option th:if="${computer.type_id.name == null}" value="">&#45;&#45; Chọn loại máy tính &#45;&#45;</option>-->
+<!--                &lt;!&ndash; Lặp qua danh sách types &ndash;&gt;-->
+<!--                <option th:each="type : ${types}"-->
+<!--                        th:value="${type.id}"-->
+<!--                        th:text="${type.name}"-->
+<!--                        th:selected="${type.id == computer.type_id?.id}"></option>-->
+<!--            </select>-->
+<!--        </div>-->
+
         <div class="form-group">
             <label for="type_id">Loại máy tính</label>
-            <select id="type_id" th:field="*{type_id}">
-                <!-- Hiển thị tùy chọn mặc định nếu type_id là null -->
-                <option th:if="${computer.type_id == null}" value="">-- Chọn loại máy tính --</option>
-                <!-- Lặp qua danh sách types -->
+            <select id="type_id" th:field="*{type_id.id}" class="form-control">
+                <option value="" disabled>-- Chọn loại máy tính --</option>
                 <option th:each="type : ${types}"
                         th:value="${type.id}"
                         th:text="${type.name}"
-                        th:selected="${type.id == computer.type_id?.id}"></option>
+                        th:selected="${type.id == computer.type_id?.id}">
+                </option>
             </select>
         </div>
+
 
         <div class="form-group">
             <label for="image">Hình ảnh</label>

@@ -1,5 +1,6 @@
 package com.example.computer_management.configuration;
 
+import com.example.computer_management.handler.ComputerExceptionHandle;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -124,6 +125,11 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         registry.addResourceHandler("/i/**")
                 .addResourceLocations("file:" + upload);
         System.out.println(upload);
+    }
+
+    @Bean
+    public ComputerExceptionHandle computerExceptionHandle(){
+        return new ComputerExceptionHandle();
     }
 
 }

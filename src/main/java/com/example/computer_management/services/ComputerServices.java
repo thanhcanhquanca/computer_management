@@ -1,5 +1,6 @@
 package com.example.computer_management.services;
 
+import com.example.computer_management.exception.NotFoundException;
 import com.example.computer_management.model.Computer;
 import com.example.computer_management.repository.IComputerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,13 @@ public class ComputerServices implements IComputerServices{
     }
 
     @Override
-    public Optional<Computer> findById(Long id) {
-        return iComputerRepository.findById(id);
+    public Optional<Computer> findById(Long id) throws NotFoundException {
+        Optional<Computer> computer = iComputerRepository.findById(id);
+        if (computer.isPresent()) {
+            return computer;
+        }else {
+            throw new NotFoundException();
+        }
     }
 
     @Override

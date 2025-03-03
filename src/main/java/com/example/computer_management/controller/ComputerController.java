@@ -1,5 +1,6 @@
 package com.example.computer_management.controller;
 
+import com.example.computer_management.exception.NotFoundException;
 import com.example.computer_management.model.Computer;
 import com.example.computer_management.model.Type;
 import com.example.computer_management.services.IComputerServices;
@@ -60,12 +61,12 @@ public class ComputerController {
         model.addAttribute("pageNumbers", PaginationUtils.getPageNumbers(componentPage.getTotalPages(), componentPage.getNumber()));
         model.addAttribute("sort", sort);
         model.addAttribute("totalItems", iComputerServices.count());
-
      return "computer/list";
     }
 
     @GetMapping("/create")
     public String showCreateForm(Model model) {
+        System.out.println("Controller");
             model.addAttribute("computer", new Computer());
             return "computer/create";
     }
@@ -87,15 +88,10 @@ public class ComputerController {
     }
 
     @GetMapping("/view/{id}")
-    public String viewComputer(@PathVariable Long id, Model model) {
+    public String viewComputer(@PathVariable Long id, Model model) throws NotFoundException {
         Optional<Computer> computer = iComputerServices.findById(id);
-        if (computer.isPresent()) {
             model.addAttribute("computer", computer.get());
             return "computer/views";
-        } else {
-            model.addAttribute("error", "Không tìm thấy máy tính với ID: " + id);
-            return "computer/error";
-        }
     }
 
     @GetMapping("/search")
@@ -125,18 +121,19 @@ public class ComputerController {
 
 
     @GetMapping("/edit")
-    public String showEditForm(Model model, Long id , RedirectAttributes redirect) {
+    public String showEditForm(Model model, Long id , RedirectAttributes redirect) throws NotFoundException {
         Optional<Computer> computer = iComputerServices.findById(id);
-        if (computer.isPresent()) {
-            model.addAttribute("computer",computer.get());
+
+            model.addAttribute("computer", computer.get());
             model.addAttribute("types", iTypeServices.findAll());
             return "computer/edit";
-        }else {
-            redirect.addFlashAttribute("error", "Cuisine with ID " + id + " not found");
-            return "redirect:/computer/edit";
-        }
+
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public String handleNotFound(Model model, NotFoundException e) {
+        return "errors/error";
+    }
 
 }
 

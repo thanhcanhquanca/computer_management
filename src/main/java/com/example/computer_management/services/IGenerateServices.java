@@ -1,5 +1,6 @@
 package com.example.computer_management.services;
 
+import com.example.computer_management.exception.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -7,7 +8,7 @@ import java.util.Optional;
 
 public interface IGenerateServices<T> {
     Iterable<T> findAll();  // lay all du lieu nhu list
-    Optional<T> findById(Long id);    // tim kiem theo id crudRepostiory
+    Optional<T> findById(Long id) throws NotFoundException;    // tim kiem theo id crudRepostiory
     void save(T t);     // luu du lieu ok oi
     void remove(Long id);    // xoa theo id
     void update(Long id, T t);   // cap nhap theo id

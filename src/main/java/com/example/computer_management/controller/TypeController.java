@@ -1,5 +1,6 @@
 package com.example.computer_management.controller;
 
+import com.example.computer_management.exception.NotFoundException;
 import com.example.computer_management.model.Type;
 import com.example.computer_management.model.ViewsComputerDTO;
 import com.example.computer_management.services.ITypeServices;
@@ -45,7 +46,7 @@ public class TypeController {
 
 
     @GetMapping("/viewsDelete/{id}")
-    public String deleteProvince(@PathVariable("id") Long id) {
+    public String deleteProvince(@PathVariable("id") Long id) throws NotFoundException {
         Optional<Type> province = iTypeServices.findById(id);
         if (province.isPresent()) {
             iTypeServices.deleteAllViewsComputers(id);

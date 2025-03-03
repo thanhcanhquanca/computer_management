@@ -9,6 +9,16 @@
 <body class="bg-light">
 <div class="container mt-4">
     <h1 class="text-center text-primary">Danh Sách Máy Tính</h1>
+    <button>
+        <a th:href="@{/computers/create}" >Computer Create</a>
+    </button>
+    <button>
+        <a th:href="@{/type/list}" >Types List</a>
+    </button>
+
+    <button>
+        <a th:href="@{/type/viewsList}" >types ViewsList</a>
+    </button>
 
     <div class="d-flex justify-content-between mb-3">
         <!-- Search Form -->
@@ -50,7 +60,8 @@
             <td th:text="${a.name}"></td>
             <td th:text="${a.code}"></td>
             <td th:text="${a.producer}"></td>
-            <td th:text="${a.type_id != null ? a.type_id.name : 'Không có loại'}"></td>
+            <td th:text="${a.getType_id() != null ? a.getType_id().getName() : 'khong co loai'}"></td>
+<!--            <td th:text="${a.type_id != null ? a.type_id.name : 'Không có loại'}"></td>-->
             <td class="text-center">
                 <img th:src="${a.img}" th:if="${a.img != null}" class="img-thumbnail" style="width: 100px; height: auto;"/>
                 <span th:if="${a.img == null}">No Image</span>
