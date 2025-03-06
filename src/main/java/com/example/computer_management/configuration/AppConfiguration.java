@@ -128,7 +128,7 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     }
 
     @Bean
-    public ComputerExceptionHandle computerExceptionHandle(){
+    public ComputerExceptionHandle computerExceptionHandle() {
         return new ComputerExceptionHandle();
     }
 
